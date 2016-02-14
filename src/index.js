@@ -1,29 +1,5 @@
 'use strict';
 
-const spawn = (gen) => {
-  const loop = (prop, last) => {
-    let result;
-    try {
-      result = iter[prop](last);
-    }
-    catch (err){
-      return Promise.reject(err);
-    }
-    if (result.done) {
-      return Promise.resolve(result.value);
-    }
-    else {
-      return Promise.resolve(result.value)
-      .then(success, fail);
-    }
-  };
-  const iter = gen();
-  const success = loop.bind(iter, 'next');
-  const fail = loop.bind(iter, 'throw');
-
-  return success();
-
-};
 const loadImage = (url) => {
   const image = new Image;
   image.src = url;
@@ -43,9 +19,9 @@ const canvasFromImage = (image) => {
   return canvas;
 };
 
-const getPixels = (canvas, x, y) => {
+const getPixels = (canvas, x, y, w, h) => {
   const ctx = canvas.getContext('2d');
-  return ctx.getImageData(x, y, 100, 100);
+  return ctx.getImageData(x, y, w, h);
 };
 
 const colorAvg = (imageData) => {
@@ -77,19 +53,32 @@ const colorAvg = (imageData) => {
   };
 };
 
-const drawRect = (canvas, color, x, y) => {
+const drawRect = (canvas, color, x, y, w, h) => {
   const ctx = canvas.getContext('2d');
   ctx.fillStyle = `rgba(${color.r},${color.g},${color.b},${color.a})`
-  ctx.fillRect(x, y, 100, 100);
+  ctx.fillRect(x, y, w, h);
 };
 
-spawn(function *() {
-  const image = yield loadImage('/img/place.jpg');
-  const x = 300;
-  const y = 300;
-  const canvas = canvasFromImage(image);
-  const pixels = getPixels(canvas, x, y);
+const drawAvgBlock = (canvas, x, y, w, h) => {
+  const pixels = getPixels(canvas, x, y, w, h);
   const avg = colorAvg(pixels);
-  const rect = drawRect(canvas, avg, x, y);
-  document.body.appendChild(canvas);
-});
+  drawRect(canvas, avg, x, y, w, h);
+};
+
+const random = (max) => Math.floor(Math.random() * max);
+
+(() => {
+  const size = 100;
+  const count = 20;
+  loadImage('/img/flowers2.jpg').then((image) => {
+    const cols = Math.floor(image.width / size);
+    const rows = Math.floor(image.height / size);
+    const canvas = canvasFromImage(image);
+
+    for(let i = 0; i < count; i++) {
+      drawAvgBlock(canvas, random(cols) * size, random(rows) * size, size, size);
+    }
+
+    document.body.appendChild(canvas);
+  });
+})();
