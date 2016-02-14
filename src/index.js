@@ -55,8 +55,17 @@ const colorAvg = (imageData) => {
 
 const drawRect = (canvas, color, x, y, w, h) => {
   const ctx = canvas.getContext('2d');
-  ctx.fillStyle = `rgba(${color.r},${color.g},${color.b},${color.a})`
+  ctx.fillStyle = `rgba(${color.r},${color.g},${color.b},${color.a})`;
   ctx.fillRect(x, y, w, h);
+};
+
+const drawText = (canvas, color, font, text, x, y) => {
+  const ctx = canvas.getContext('2d');
+  ctx.font = font;
+  ctx.textBaseline = 'top';
+  ctx.textAlign = 'center';
+  ctx.fillStyle = `rgba(${color.r},${color.g},${color.b},${color.a})`;
+  ctx.fillText(text, x, y);
 };
 
 const drawAvgBlock = (canvas, x, y, w, h) => {
@@ -78,6 +87,11 @@ const random = (max) => Math.floor(Math.random() * max);
     for(let i = 0; i < count; i++) {
       drawAvgBlock(canvas, random(cols) * size, random(rows) * size, size, size);
     }
+
+    drawRect(canvas, {r: 20, g: 20, b: 20, a: 1}, size, size, size * 4, size * 2);
+    drawText(canvas, {r: 255, g: 255, b: 255, a: 0.9}, '30px sans', 'CHVRCHES', size*3, size + 16);
+    drawText(canvas, {r: 255, g: 255, b: 255, a: 0.9}, 'italic 14px serif', 'Every Open Eye', size*3, size + 60);
+
 
     document.body.appendChild(canvas);
   });
