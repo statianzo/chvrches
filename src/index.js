@@ -79,7 +79,7 @@ const random = (max) => Math.floor(Math.random() * max);
 (() => {
   const size = 50;
   const count = 20;
-  loadImage('/img/flowers.jpg').then((image) => {
+  loadImage('img/flowers.jpg').then((image) => {
     const cols = Math.floor(image.width / size);
     const rows = Math.floor(image.height / size);
     const canvas = canvasFromImage(image);
