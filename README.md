@@ -3,6 +3,7 @@
 This project recreates the [Chvrches Every Open Eye](http://www.allmusic.com/album/every-open-eye-mw0002861832)
 album cover dynamicaly.
 
+![sample](https://cdn.rawgit.com/statianzo/chvrches/gh-pages/img/result.png)
 
 Image credit [Celeste Goulding](https://www.flickr.com/photos/celeste33/).
 
