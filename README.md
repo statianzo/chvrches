@@ -7,6 +7,10 @@ album cover dynamicaly.
 
 Image credit [Celeste Goulding](https://www.flickr.com/photos/celeste33/).
 
+## demo
+
+See a [working demo](http://statianzo.github.io/chvrches).
+
 # License
 
 Copyright (c) 2016, Jason Staten
